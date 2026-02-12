@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="priority_low">#4CAF50</color>
+    <color name="priority_normal">#FFC107</color>
+    <color name="priority_high">#F44336</color>
+    <color name="primaryColor">#3F51B5</color>
+    <color name="primaryDarkColor">#303F9F</color>
+    <color name="secondaryColor">#FF4081</color>
+    <color name="secondaryDarkColor">#F50057</color>
+    <color name="backgroundColor">#F5F5F5</color>
+    <color name="textColorPrimary">#212121</color>
+    <color name="textColorSecondary">#757575</color>
+    <color name="surfaceColor">#FFFFFF</color>
+    <color name="selectedPriority">#8C9EFF</color>
+</resources>

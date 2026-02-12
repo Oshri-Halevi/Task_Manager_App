@@ -1,0 +1,236 @@
+﻿@startuml TaskManagerClassDiagram
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype ortho
+left to right direction
+
+package "App/UI" {
+  class MainActivity {
+    +onCreate()
+    +onSupportNavigateUp()
+  }
+
+  class TaskManagerApp {
+    +taskRepository: TaskRepository
+    +calendarRepository: CalendarRepository
+    +authRepository: AuthRepository
+  }
+
+  abstract class BaseTaskListFragment {
+    +onViewCreated()
+    +provideTasks(): LiveData<List<Task>>
+    +navigateToAddTask()
+    +navigateToTaskDetails(taskId: Int)
+  }
+
+  class LoginFragment
+  class TaskListFragment
+  class TodayTasksFragment
+  class AddEditTaskFragment
+  class TaskDetailFragment
+  class SettingsFragment
+  class ListsFragment
+  class ShareListFragment
+
+  class TaskAdapter
+  class ListsAdapter
+}
+
+package "ViewModel" {
+  class TaskViewModel {
+    +tasks: LiveData<List<Task>>
+    +todayTasks: LiveData<List<Task>>
+    +insert(task: Task)
+    +update(task: Task)
+    +delete(task: Task)
+    +syncNow()
+    +importCalendar()
+  }
+
+  class ListViewModel {
+    +lists: LiveData<List<ListEntity>>
+    +createList(name: String)
+  }
+
+  class AuthViewModel {
+    +state: LiveData<AuthState>
+    +checkSession()
+    +signInWithGoogle(idToken: String)
+    +signOut()
+  }
+
+  class TaskViewModelFactory
+  class ListViewModelFactory
+  class AuthViewModelFactory
+}
+
+package "Data/Repository" {
+  class TaskRepository {
+    +getAllTasks()
+    +getTasksByList(listId: Long)
+    +insert(task: Task)
+    +update(task: Task)
+    +delete(task: Task)
+    +syncNow(): SyncResult
+    +shareList(listId: Long, invitedUserId: String, currentUserId: String): Boolean
+  }
+
+  class CalendarRepository {
+    +importCalendar(): CalendarImportResult
+  }
+
+  class CalendarImportResult
+  class SyncResult
+}
+
+package "Data/Local (Room)" {
+  class AppDatabase {
+    +taskDao(): TaskDao
+    +listDao(): ListDao
+    +memberDao(): MemberDao
+    +calendarImportMapDao(): CalendarImportMapDao
+  }
+
+  interface TaskDao
+  interface ListDao
+  interface MemberDao
+  interface CalendarImportMapDao
+
+  class Task {
+    +id: Int
+    +title: String
+    +description: String
+    +isDone: Boolean
+    +priority: Int
+    +dueDate: Long?
+    +listId: Long
+    +remoteId: String?
+    +syncState: SyncState
+  }
+
+  class ListEntity
+  class MemberEntity
+  class CalendarImportMapEntity
+  enum SyncState {
+    SYNCED
+    DIRTY
+    DELETED
+  }
+
+  class SyncStateConverter
+}
+
+package "Data/Remote" {
+  interface RemoteTaskDataSource {
+    +fetchTasks(listId: Long): List<Task>
+    +upsertTask(task: Task, listId: Long)
+    +deleteTask(taskId: Int, listId: Long)
+    +shareList(listId: Long, memberEmails: List<String>): Boolean
+  }
+
+  class SupabaseRemoteTaskDataSource
+  class FakeRemoteTaskDataSource
+  class SupabaseProvider
+  class RemoteTaskDto
+  class TaskMapper
+}
+
+package "Data/Calendar" {
+  interface CalendarDataSource {
+    +fetchEvents(days: Int): List<CalendarEvent>
+  }
+
+  class GoogleCalendarDataSource
+  class FakeCalendarDataSource
+  class CalendarEvent
+}
+
+package "Auth" {
+  interface AuthRepository {
+    +loginWithGoogleIdToken(idToken: String): Session
+    +restoreSession(): Session?
+    +signOut()
+  }
+
+  class SupabaseAuthRepository
+  class FakeAuthRepository
+  class EncryptedAuthStorage
+  class SessionStorageAdapter
+  class Session
+  class AuthState
+  class AppConfig
+}
+
+TaskListFragment --|> BaseTaskListFragment
+TodayTasksFragment --|> BaseTaskListFragment
+
+MainActivity --> AuthViewModel
+LoginFragment --> AuthViewModel
+SettingsFragment --> AuthViewModel
+
+BaseTaskListFragment --> TaskViewModel
+TaskDetailFragment --> TaskViewModel
+AddEditTaskFragment --> TaskViewModel
+SettingsFragment --> TaskViewModel
+ShareListFragment --> TaskViewModel
+ListsFragment --> ListViewModel
+
+BaseTaskListFragment --> TaskAdapter
+ListsFragment --> ListsAdapter
+
+TaskViewModel --> TaskRepository
+TaskViewModel --> CalendarRepository
+ListViewModel --> ListDao
+AuthViewModel --> AuthRepository
+
+TaskRepository --> TaskDao
+TaskRepository --> MemberDao
+TaskRepository --> RemoteTaskDataSource
+CalendarRepository --> CalendarDataSource
+CalendarRepository --> CalendarImportMapDao
+CalendarRepository --> TaskDao
+CalendarRepository --> ListDao
+
+AppDatabase --> TaskDao
+AppDatabase --> ListDao
+AppDatabase --> MemberDao
+AppDatabase --> CalendarImportMapDao
+
+TaskDao --> Task
+ListDao --> ListEntity
+MemberDao --> MemberEntity
+CalendarImportMapDao --> CalendarImportMapEntity
+Task --> SyncState
+AppDatabase ..> SyncStateConverter
+
+SupabaseRemoteTaskDataSource ..|> RemoteTaskDataSource
+FakeRemoteTaskDataSource ..|> RemoteTaskDataSource
+GoogleCalendarDataSource ..|> CalendarDataSource
+FakeCalendarDataSource ..|> CalendarDataSource
+SupabaseAuthRepository ..|> AuthRepository
+FakeAuthRepository ..|> AuthRepository
+
+SupabaseAuthRepository --> EncryptedAuthStorage
+FakeAuthRepository --> EncryptedAuthStorage
+SessionStorageAdapter --> EncryptedAuthStorage
+
+TaskManagerApp --> AppDatabase
+TaskManagerApp --> TaskRepository
+TaskManagerApp --> CalendarRepository
+TaskManagerApp --> AuthRepository
+TaskManagerApp --> TaskViewModelFactory
+TaskManagerApp --> ListViewModelFactory
+TaskManagerApp --> AuthViewModelFactory
+
+TaskRepository --> SyncResult
+CalendarRepository --> CalendarImportResult
+TaskMapper ..> RemoteTaskDto
+TaskMapper ..> Task
+SupabaseRemoteTaskDataSource --> SupabaseProvider
+GoogleCalendarDataSource --> CalendarEvent
+CalendarRepository --> CalendarEvent
+AuthRepository --> Session
+AuthViewModel --> AuthState
+
+@enduml

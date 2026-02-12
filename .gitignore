@@ -1,0 +1,27 @@
+# IntelliJ / Android Studio
+.idea/
+*.iml
+
+# Gradle
+.gradle/
+**/build/
+
+# Local config
+local.properties
+
+# Native build
+.externalNativeBuild/
+.cxx/
+
+# OS
+.DS_Store
+
+# Keystore (חשוב!)
+keystore/
+*.jks
+*.keystore
+key.properties
+
+# Kotlin
+.kotlin/
+/app/.gitignore

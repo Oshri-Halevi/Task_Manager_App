@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.taskmanagerapp.LoginFragment"
+        android:label="@string/label_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_taskListFragment"
+            app:destination="@id/taskListFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/listsFragment"
+        android:name="com.example.taskmanagerapp.ListsFragment"
+        android:label="@string/label_lists"
+        tools:layout="@layout/fragment_lists">
+        <action
+            android:id="@+id/action_listsFragment_to_taskListFragment"
+            app:destination="@id/taskListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/taskListFragment"
+        android:name="com.example.taskmanagerapp.TaskListFragment"
+        android:label="@string/label_task_list"
+        tools:layout="@layout/fragment_task_list">
+
+        <argument
+            android:name="listId"
+            app:argType="long"
+            android:defaultValue="1L" />
+
+        <action
+            android:id="@+id/action_taskListFragment_to_addEditTaskFragment"
+            app:destination="@id/addEditTaskFragment" />
+        <action
+            android:id="@+id/action_taskListFragment_to_taskDetailFragment"
+            app:destination="@id/taskDetailFragment" />
+        <action
+            android:id="@+id/action_taskListFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_taskListFragment_to_shareListFragment"
+            app:destination="@id/shareListFragment" />
+    </fragment>
+    
+    <fragment
+        android:id="@+id/todayTasksFragment"
+        android:name="com.example.taskmanagerapp.TodayTasksFragment"
+        android:label="@string/nav_bottom_today"
+        tools:layout="@layout/fragment_task_list">
+        <action
+            android:id="@+id/action_todayTasksFragment_to_addEditTaskFragment"
+            app:destination="@id/addEditTaskFragment" />
+        <action
+            android:id="@+id/action_todayTasksFragment_to_taskDetailFragment"
+            app:destination="@id/taskDetailFragment" />
+        <action
+            android:id="@+id/action_todayTasksFragment_to_shareListFragment"
+            app:destination="@id/shareListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.taskmanagerapp.SettingsFragment"
+        android:label="@string/settings_title"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/addEditTaskFragment"
+        android:name="com.example.taskmanagerapp.AddEditTaskFragment"
+        android:label="@string/label_add_edit_task"
+        tools:layout="@layout/fragment_add_edit_task">
+
+        <argument
+            android:name="taskId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_addEditTaskFragment_to_taskListFragment"
+            app:destination="@id/taskListFragment"
+            app:popUpTo="@id/taskListFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/taskDetailFragment"
+        android:name="com.example.taskmanagerapp.TaskDetailFragment"
+        android:label="@string/label_task_details"
+        tools:layout="@layout/fragment_task_detail">
+
+        <argument
+            android:name="taskId"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/action_taskDetailFragment_to_addEditTaskFragment"
+            app:destination="@id/addEditTaskFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/shareListFragment"
+        android:name="com.example.taskmanagerapp.ShareListFragment"
+        android:label="@string/title_share_list"
+        tools:layout="@layout/fragment_share_list" />
+
+</navigation>

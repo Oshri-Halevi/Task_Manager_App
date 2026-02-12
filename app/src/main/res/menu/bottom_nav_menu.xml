@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/taskListFragment"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="@string/nav_bottom_all" />
+
+    <item
+        android:id="@+id/todayTasksFragment"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="@string/nav_bottom_today" />
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/nav_bottom_settings" />
+</menu>

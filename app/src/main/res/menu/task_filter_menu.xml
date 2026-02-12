@@ -1,0 +1,34 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/sort_by_date"
+        android:title="@string/sort_date"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/sort_by_priority"
+        android:title="@string/sort_priority"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/filter_all"
+        android:title="@string/filter_show_all"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/filter_active"
+        android:title="@string/filter_show_active"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/filter_done"
+        android:title="@string/filter_show_done"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_share_list"
+        android:title="@string/title_share_list"
+        app:showAsAction="never"/>
+
+</menu>
