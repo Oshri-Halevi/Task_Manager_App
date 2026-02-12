@@ -1,4 +1,9 @@
 # Task Manager App 📋
+![Android](https://img.shields.io/badge/Platform-Android-green)
+![Kotlin](https://img.shields.io/badge/Language-Kotlin-purple)
+![Architecture](https://img.shields.io/badge/Architecture-MVVM-blue)
+![Database](https://img.shields.io/badge/Database-Room-orange)
+![Backend](https://img.shields.io/badge/Backend-Supabase-3ECF8E)
 
 Android Task Management Application built with Kotlin and MVVM architecture.
 
